@@ -15,7 +15,7 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-primary/50" />
       <div className="relative flex h-full flex-col items-center justify-center px-6 text-center">
         <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-primary-foreground/80">
-          Premium Coastal Fashion
+          Premium Coastal Fashion-Test
         </p>
         <h1 className="max-w-3xl font-serif text-5xl font-bold leading-tight text-primary-foreground md:text-7xl text-balance">
           Where the ocean meets style
