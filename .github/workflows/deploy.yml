@@ -1,0 +1,51 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Navigate to app directory
+            cd /var/www/sea-of-style
+            
+            # Pull latest code
+            git pull origin main
+            
+            # Install dependencies
+            pnpm install --frozen-lockfile
+            
+            # Update environment variables (if secrets are set)
+            if [ -n "${{ secrets.NEXT_PUBLIC_API_URL }}" ]; then
+              cat > .env.local << EOF
+            NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
+            NEXT_PUBLIC_COGNITO_USER_POOL_ID=${{ secrets.NEXT_PUBLIC_COGNITO_USER_POOL_ID }}
+            NEXT_PUBLIC_COGNITO_CLIENT_ID=${{ secrets.NEXT_PUBLIC_COGNITO_CLIENT_ID }}
+            NEXT_PUBLIC_COGNITO_REGION=ca-central-1
+            EOF
+            fi
+            
+            # Build application
+            pnpm build
+            
+            # Restart PM2
+            pm2 restart sea-of-style
+            
+            # Show status
+            echo "Deployment completed!"
+            pm2 status
