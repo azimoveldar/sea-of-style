@@ -30,8 +30,8 @@ export default function ContactPage() {
               <div>
                 <p className="text-sm font-medium text-foreground">Address</p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  123 Coastal Drive<br />
-                  Ocean City, CA 90210
+                  1750 Finch Ave<br />
+                  North York, CA M2J 2X5
                 </p>
               </div>
             </div>
@@ -40,7 +40,7 @@ export default function ContactPage() {
               <div>
                 <p className="text-sm font-medium text-foreground">Email</p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  hello@seaofstyle.com
+                  info@seaofstyle.com
                 </p>
               </div>
             </div>
